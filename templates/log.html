@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome Page</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: white;
+  }
+
+  .container {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+   
+    
+  }
+
+  .box {
+    flex: 1;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .box img {
+    max-width: 100px;
+    height: auto;
+  }
+
+  .title {
+    color:white;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+
+  .admin {
+    border-right: 1px solid #ccc;
+    padding-right: 30px;
+  }
+
+  .student {
+    padding-left: 30px;
+  }
+</style>
+</head>
+<body style="background-image:url('{% static 'wal1.jpg' %}'); background-repeat: no-repeat; background-size: cover;">
+  <div class="container" style="background-color:black;">
+    <a href="admin_login" style="text-decoration:none;">
+       <div class="box admin">
+    
+          <img src="{% static 'admin5.png' %}" alt="Admin">
+    
+        <div class="title">Admin</div>
+      
+      </div>
+    </a>
+    <a href="student_login" style="text-decoration:none;">
+      <div class="box student">
+        <img src="{% static 'stu7.png' %}" alt="Student">
+      <div class="title">Student</div>
+    </div>
+   </a>
+  </div>
+</body>
+</html>

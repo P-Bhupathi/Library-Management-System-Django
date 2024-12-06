@@ -1,0 +1,335 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #0a0a0a;
+            color: white;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: black;
+            color: white;
+            padding: 10px 20px;
+        }
+
+        /* Add this CSS for the left-triangle shape */
+        .navbar button.home-button::before {
+            content: "\25C0"; /* Unicode character for a left-pointing triangle */
+            font-size: 18px;
+            margin-right: 5px;
+            transform: translateY(2px);
+        }
+
+        .navbar button.home-button {
+            background-color: inherit;
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .navbar-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .student-info {
+            text-align: right;
+        }
+
+        .search-bar {
+            flex-grow: 1;
+            align:center;
+            width: 150%;
+            text-align: left; /* Adjusted text alignment */
+            margin: 0 10px; /* Added margin to make it smaller */
+        }
+
+        /* Style the search input */
+        #search-input {
+            width: 150%;
+            padding: 8px; /* Adjusted padding */
+            font-size: 14px; /* Adjusted font size */
+            border: none;
+            border-radius: 5px;
+        }
+
+        /* Style the search results rows */
+        .search-results tr {
+            background-color: #f8f8f8;
+            transition: background-color 0.2s;
+        }
+
+        .search-results tr:hover {
+            background-color: #ddd;
+        }
+
+        .dashboard {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: center;
+            height: auto;
+        }
+
+        .dashboard-item {
+            width: 75%;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            position: relative;
+            overflow: hidden;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .dashboard-item1 {
+            width: 5%;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            position: relative;
+            overflow: hidden;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .dashboard-item:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .dashboard-item:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0);
+            transform: scale(1);
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .dashboard-item h2 {
+            color: #333;
+        }
+
+        .dashboard-item p {
+            font-size: 24px;
+            color: #555;
+        }
+
+        .dashboard-item img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 10px;
+        }
+
+        .back-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-button button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #1088f9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .books-borrowed {
+            background-color: #66BB6A;
+        }
+
+        .books-returned {
+            background-color: #42A5F5;
+        }
+
+        .overdue-books {
+            background-color: #FFA726;
+        }
+
+        .fines-penalties {
+            background-color: #EF5350;
+        }
+
+        .books-borrowed p {
+            color: #388E3C;
+        }
+
+        .books-returned p {
+            color: #1976D2;
+        }
+
+        .overdue-books p {
+            color: #F57C00;
+        }
+
+        .fines-penalties p {
+            color: #D32F2F;
+        }
+
+        .download-button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            margin: 2px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 70%;
+            border-collapse: collapse;
+            margin: 10px auto;
+            color: black;
+            background:inherit;
+        }
+        tr{
+        width:50px;
+        }
+
+        /* Style the table cells */
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    white-space: normal; /* Allow text to wrap within the cell */
+}
+
+
+        th {
+            background-color: #e0e0e0;
+            color:black;
+        }
+
+        /* Add background color to table rows */
+        tr:nth-child(odd) {
+            background-color: inherit;
+            color:white;
+            text:bold;
+            
+
+        }
+
+        tr:nth-child(even) {
+            background-color: inherit;
+            color:white;
+            text:bold;
+
+        }
+
+        a.button {
+            display: inline-block;
+            padding: 5px 10px;
+            text-decoration: none;
+            background-color: #3498db;
+            color: #fff;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body style="background-image:url('{% static 'dash1.jpg' %}'); background-repeat: no-repeat; background-size: cover;">
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.getElementById("search-input");
+        const table = document.querySelector("table");
+        const tableRows = table.querySelectorAll("tbody tr");
+
+        searchInput.addEventListener("input", function () {
+            const searchText = searchInput.value.toLowerCase().trim();
+
+            tableRows.forEach(function (row) {
+                const cells = row.querySelectorAll("td");
+                let found = false;
+
+                cells.forEach(function (cell) {
+                    const cellText = cell.textContent.toLowerCase();
+                    if (cellText.includes(searchText)) {
+                        found = true;
+                    }
+                });
+
+                if (found) {
+                    row.style.display = ""; // Show the row
+                } else {
+                    row.style.display = "none"; // Hide the row
+                }
+            });
+        });
+    });
+</script>
+
+<div class="navbar">
+    <button class="home-button" onclick="window.history.back()">
+        Home
+    </button>
+    
+    <center>
+    <div class="search-bar">
+        <input type="text" id="search-input" placeholder="Search by Book ID, Name, or ISBN">
+    </div></center>
+    <div class=navbar-title></div>
+    <div class="student-info">
+        {% if student_name and student_id %}
+        {{ student_name }} (ID: {{ student_id }})
+        {% endif %}
+    </div>
+</div>
+
+<!-- Dashboard Content -->
+<br>
+<center><div class=navbar-title>E-Books</div></center>
+<br>
+<table style="background:inherit;">
+    <thead style="color:black;">
+    <tr>
+        <th></th>
+        <th>Book Name</th>
+        <th>ISBN</th>
+        <th><center>Action</center></th>
+    </tr><b>
+    </thead>
+    <tbody>
+    {% for book in library_records %}
+    <tr>
+        <td style="width:100px;"> <img width="50%" height="50%" src="{{ book.book_image.url }} " alt="Book Image" "></td>
+        <td style="width:50px;"><b>{{ book.book_name }}</b></td>
+        <td style="width:50px;"><b>{{ book.book_isbn }}</b></td>
+        <td style="width:50px;"><center><a class="button" href="{{ book.pdf_file.url }}" target="_blank" download="bhu.jpg">Download</a></center></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

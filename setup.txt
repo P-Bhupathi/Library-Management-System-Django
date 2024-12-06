@@ -1,0 +1,45 @@
+********************  SETUP  ********************************************
+
+
+step 1: install django 4.2.1 in python virtual environment
+
+setp 2: go to the directory where the manage.py file exists in project
+
+step 3: in Command Prompt type "python manage.py runserver"
+
+step 4: open "localhost:8000" in browser
+
+step 5: Login as "Admin" 
+
+        id:       admin
+        password: admin
+
+
+***************  Want to create more admins ******************
+
+1 ---> go to "localhost:8000/admin" and enter
+
+        username: admin
+        password: admin
+
+2 ---> click on "Admin_creds" under "LIBRARYAPP" section
+
+3 ---> click on "ADD ADMIN_CRED" at top right corner
+
+4 ---> enter "Admin id" and "password" and click "save"
+
+
+**************** Want to add super admins *********************
+
+1 ---> go to "localhost:8000/admin" and enter
+
+        username: admin
+        password: admin
+
+2 ---> click on "users" under "Authentication and Authorization" section
+
+3 ---> click on "ADD USER" at top right corner
+
+4 ---> enter "username" and "password" and click "save"
+
+*********************************************************************

@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Books</title>
+    <!-- Add your CSS styles here -->
+    <style>
+        /* Your CSS styles for formatting go here */
+    </style>
+</head>
+<body>
+    <h1>All Books</h1>
+    
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Author</th>
+            <th>ISBN</th>
+            <th>Cost</th>
+            <th>Image</th>
+        </tr>
+        
+        {% for book in books %}
+        <tr>
+            <td>{{ book.book_id }}</td>
+            <td>{{ book.book_name }}</td>
+            <td>{{ book.book_author }}</td>
+            <td>{{ book.book_isbn }}</td>
+            <td>{{ book.book_cost }}</td>
+            <td><img src="  {{ book.book_image.url }}" alt="{{ book.book_name }}" height="100"></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

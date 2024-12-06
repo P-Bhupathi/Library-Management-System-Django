@@ -1,0 +1,114 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Page</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column; /* Make content span vertically */
+    align-items: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .box {
+    text-align: center;
+    padding: 20px;
+    color:white;
+  }
+
+  .box img {
+    margin-top:50px;
+    max-width: 100px;
+    height:auto; 
+  }
+
+  .title {
+    margin-top: 10px;
+    font-weight: bold;
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;  }
+
+  .signup-link {
+    margin-top: 10px;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  /* Styling for the buttons */
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    width: 100%; /* Make buttons take up full width */
+  }
+
+  .button {
+    flex: 1;
+    padding: 10px 20px;
+    background-color: #ff714a;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size:16px;
+  }
+
+  .back-button {
+    background-color: #5798f4;
+    margin-left: 10px; /* Add margin to separate buttons */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body style="background-image:url('{% static 'wal2.jpg' %}'); background-repeat: no-repeat; background-size: cover;">
+  <div class="container" style="background-color:black";>
+    <div class="box">
+      <img src="{% static 'stu5.png' %}" alt="Admin">
+      <div class="title">Student</div>
+    </div>
+    <div class="box">
+      <form class="login-form" action="student_valid" method="POST">
+        {% csrf_token %}
+        {{message}}
+        <input class="input" type="text" name='student_id' placeholder="Reg Number" required>
+        <input class="input" type="password" name='student_pass' placeholder="Password" required>
+        <div class="button-container">
+          <a href="student_login/student_dashboard"><button class="button" >Login</button></a>
+          <div class="button back-button" onclick="window.history.back()">Back</div>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

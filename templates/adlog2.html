@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Page</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+  }
+  form button[type="submit"] {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #ff714a;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+  .container {
+    display: flex;
+    align-items: center;
+    flex-direction: column; /* Adjusted to align items vertically */
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .box {
+    flex: 1;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .box img {
+    max-width: 100px;
+    height: auto;
+  }
+
+  .title {
+    margin-top: 10px;
+    font-weight: bold;
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .signup-link {
+    margin-top: 10px;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  .back-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .back-link a {
+    padding: 10px 20px;
+    background-color: #ff714a;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="box">
+      <img src="{% static 'admin.jpeg' %}" alt="Admin">
+      <div class="title">Admin</div>
+    </div>
+    <div class="box">
+      <form class="login-form" method="GET" action="">
+        <input class="input" type="text" placeholder="ID Number">
+        <input class="input" type="password" placeholder="Password">
+        <a href="admin_login/admin_new_register"><div class="signup-link">New user? Sign up</div></a>
+        <button type="submit">Login</button> <!-- Moved the button inside the form -->
+      </form>
+      <center>
+        <div class="back-link">
+          <a href="/">Back</a>
+        </div>
+      </center>
+    </div>
+  </div>
+</body>
+</html>

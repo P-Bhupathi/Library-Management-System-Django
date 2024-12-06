@@ -1,0 +1,223 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Dashboard</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #0a0a0a;
+  }
+  .navbar {
+    display: flex;
+    align-items:center;
+    justify-content: space-between;
+    background: #1a1a1a;
+    color: #0cb0f6;
+    padding: 10px 20px;
+    position: relative;
+    top:0;
+    left:0;
+    height:7vh;
+  }
+
+  .navbar-logo {
+    display:block;
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: -2%;
+    width: 30%;
+  }
+  
+  .navbar-logo img {
+    max-height: 15%;
+    max-width: 50%; 
+  }
+
+  .navbar-title {
+    font-size: 25px;
+    font-weight: bold;
+    color:white;
+    margin-right:20%;
+  }
+
+  .student-info {
+    text-align: right;
+    color:white;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .dashboard-item {
+    width: calc(45% - 20px); /* Adjusted width to account for margins */
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    position: relative;
+    overflow: hidden;
+    transition: background-color 0.2s, color 0.2s; /* Added transition */
+    flex-grow: 1; /* Allow items to distribute space evenly */
+  }
+
+  .dashboard-item:hover {
+    background-color: inherit;
+  }
+  .dashboard-item:hover h2, 
+  .dashboard-item:hover p {
+    text-color:black;
+    color: black;
+  }
+
+
+  .dashboard-item:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0);
+    transform: scale(1);
+    transition: transform 0.2s, background-color 0.2s;
+  }
+
+  .dashboard-item:hover:before {
+    background: rgba(0, 0, 0, 0.2);
+    transform: scale(1.1);
+  }
+
+  .dashboard-item h2 {
+    color: white;
+  }
+
+  .dashboard-item p {
+    font-size: 24px;
+    color: white;
+  }
+
+  .dashboard-item img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+  }
+
+  .back-button {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .back-button button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #1088f9;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom:40px;
+  }
+
+  /* Remove underlines from links */
+  .dashboard-item a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .books-borrowed {
+    background-color: #2C3539;
+    color:white;
+  }
+
+  .books-returned {
+    background-color: #2C3539;
+    color:white;
+  }
+
+  .overdue-books {
+    background-color:#2C3539;
+    color:white;
+  }
+
+  .fines-penalties {
+    background-color: #2C3539;
+    color:white;
+  }
+
+  .books-borrowed p {
+    color: white;
+  }
+
+  .books-returned p {
+    color: white;
+  }
+
+  .overdue-books p {
+    color: white;
+  }
+
+  .fines-penalties p {
+    color: white;
+  }
+</style>
+</head>
+<body  style="background-image:url('{% static 'wal3.jpg' %}'); background-repeat: no-repeat; background-size: cover;">
+  
+   <!-- Navigation Bar -->
+   <div class="navbar">
+    <div class="navbar-logo"><img src="{% static 'logo.png' %}" alt="logo"></div>
+    {% comment %} <div> <button style="background-color:inherit;" onclick="window.history.back()">Back</button></div> {% endcomment %}
+    <div class="navbar-title">Library Student Dashboard</div>
+    <div class="student-info">
+      Student id: {{ student_id }}
+      
+    </div>
+  </div>
+  <div class="dashboard">
+    <a href="{% url 'books_borrowed' student_id %}" class="dashboard-item books-borrowed" style="text-decoration: none;
+    color: inherit;">
+      {% comment %} <img src="C:\Users\Kedhar Reddy\OneDrive\Pictures\borrow books.png" alt="Books Borrowed"> {% endcomment %}
+      <h2>Books Borrowed</h2>
+      <p>{{borrowed_count}}</p>
+    </a>
+
+    <a href="{% url 'books_returned' student_id %}" class="dashboard-item books-returned"  style="text-decoration: none;
+    color: inherit;">
+      {% comment %} <img src="C:\Users\Kedhar Reddy\OneDrive\Pictures\return2.png" alt="Books Returned"  > {% endcomment %}
+      <h2>Books Returned</h2>
+      <p>{{returned_count}}</p>
+    </a>
+
+    <a href="{% url 'books_overdue' student_id %}" class="dashboard-item overdue-books"  style="text-decoration: none;
+    color: inherit;">
+      {% comment %} <img src="C:\Users\Kedhar Reddy\OneDrive\Pictures\overdue.png" alt="Overdue Books"> {% endcomment %}
+      <h2>Overdue Books</h2>
+      <p>{{overdue_count}}</p>
+    </a>
+
+    <a href="{% url 'e_books' %}" class="dashboard-item fines-penalties" style="text-decoration: none;
+    color: inherit;">
+      {% comment %} <img src="C:\Users\Kedhar Reddy\OneDrive\Pictures\fine.png" alt="Fines/Penalties"> {% endcomment %}
+      <h2>E-Books</h2>
+      <p>{{ebooks_count}}</p>
+    </a>
+    <div class="back-button">
+      <button onclick="window.history.back()">Back</button>
+    </div>
+  </div>
+</body>
+</html>

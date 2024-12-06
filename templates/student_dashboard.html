@@ -1,0 +1,126 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Dashboard</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #0a0a0a;
+  }
+
+  .dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .dashboard-item {
+    width: 45%;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .dashboard-item:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0);
+    transform: scale(1);
+    transition: transform 0.2s, background-color 0.2s;
+  }
+
+  .dashboard-item:hover:before {
+    background: rgba(0, 0, 0, 0.2); /* Adjusted hover color */
+    transform: scale(1.1);
+  }
+
+  .dashboard-item h2 {
+    color: #333;
+  }
+
+  .dashboard-item p {
+    font-size: 24px;
+    color: #555;
+  }
+
+  .dashboard-item img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+  }
+
+  .books-borrowed {
+    background-color: #66BB6A;
+  }
+
+  .books-returned {
+    background-color: #42A5F5;
+  }
+
+  .overdue-books {
+    background-color: #FFA726;
+  }
+
+  .fines-penalties {
+    background-color: #EF5350;
+  }
+
+  .books-borrowed p {
+    color: #388E3C;
+  }
+
+  .books-returned p {
+    color: #1976D2;
+  }
+
+  .overdue-books p {
+    color: #F57C00;
+  }
+
+  .fines-penalties p {
+    color: #D32F2F;
+  }
+</style>
+</head>
+<body>
+  <div class="dashboard">
+    <div class="dashboard-item books-borrowed">
+      <img src="{% static 'borrowed.jpg' %}" alt="Books Borrowed">
+      <h2>Books Borrowed</h2>
+      <p>10</p>
+    </div>
+    <div class="dashboard-item books-returned">
+      <img src="{% static 'return.jpg' %}" alt="Books Returned">
+      <h2>Books Returned</h2>
+      <p>8</p>
+    </div>
+    <div class="dashboard-item overdue-books">
+      <img src="{% static 'over_dues.jpg' %}" alt="Overdue Books">
+      <h2>Overdue Books</h2>
+      <p>2</p>
+    </div>
+    <div class="dashboard-item fines-penalties">
+      <img src="{% static 'fine.jpg' %}" alt="Fines/Penalties">
+      <h2>Fines/Penalties</h2>
+      <p>$20</p>
+    </div>
+  </div>
+</body>
+</html>

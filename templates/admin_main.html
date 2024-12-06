@@ -1,0 +1,1658 @@
+{% load static %}
+
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management Dashboard</title>
+<style>
+
+body{
+  flex-direction: column;
+  
+  overflow: hidden;
+  display: grid;
+  margin: 0;
+  font-family:Arial,sans-serif;
+}
+#main{
+  display:grid;
+  border-color: black;
+  border-width: 10px;
+  margin: 0;
+}
+#searchbar {
+  background-color: red;
+ }
+#dropdown{
+  width:20%;
+  height: 100vh;
+  background: green;
+  display: flex;
+  flex-direction: row;
+
+}
+#content{
+  display:inline-flex;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+#forms{
+  background:url('{%static 'dashwal.jpg' %}');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  width: 100%;
+  height: 100vh;
+  overflow: auto;
+  justify-content: center;
+  display:grid;
+  position: inherit;
+  overflow: auto;
+}
+#booksform{
+  width: 100%;
+  height: 100vh;
+  overflow: auto;
+  justify-content: center;
+  position: relative;
+}
+/* ------------------------------------------------ SEARCH BAR TOP --------------------------------------------- */
+#searchbar{
+  display: flex;
+  align-items:center;
+  justify-content: space-evenly;
+  background: #1a1a1a;
+  color: #0cb0f6;
+  padding: 10px 20px;
+  position: relative;
+  top:0;
+  left:0;
+  height:7vh;
+}
+.navbar-logo {
+  display:block;
+  font-size: 24px;
+  font-weight: bold;
+  margin-left: -2%;
+  width: 30%;
+}
+
+.navbar-logo img {
+  max-height: 15%;
+  max-width: 50%; 
+}
+
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  width: 50%;
+  max-width: 500px;
+  padding: 10px;
+  border: none;
+  
+  background-color: inherit;
+  margin: 0 auto;
+  outline: none;
+}
+
+#admindashboard{
+background:none;
+
+}
+
+
+#searchInput {
+  flex-grow: 1;
+  border: white;
+  outline: none;
+  background-color: transparent;
+  color: white;
+  padding: 8px;
+  font-size: 16px;
+  margin-right: 4px;
+}
+
+.search-logo {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  fill: #fff;
+}
+
+
+#search-button {
+  background-color: #0080ff;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  height:10%;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+#search-button:hover {
+  background-color: #495ae1;
+}
+
+.user-icons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.user-icon {
+  width: fit-content;
+  height: 30px;
+  border-radius: 15%;
+  background-color: inherit;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+  
+
+
+
+
+
+#qr{
+  
+  width:100%;
+  display:none;
+}
+
+/* ------------------------------------------------ LEFT PANEL --------------------------------------------- */
+  /* Sidebar */
+            .sidebar {
+              background-color: #1a1a1a;
+              color: #ffffff;
+              width: 100%;
+              padding-left: 20px;
+              padding-top:20px;
+              padding-right: 30px;
+              height: 100vh; /* Make the sidebar take the full viewport height */
+              position: relative; /* Keep the sidebar fixed while scrolling */
+              overflow-y: auto;
+            }
+            
+            .sidebar-link {
+              display: block;
+              color: #ffffff;
+              margin-bottom: 10px;
+              text-decoration: none;
+              transition: color 0.3s;
+              font-size: 18px;
+            }
+            
+            .sidebar-link:hover {
+              color: #0080ff;
+            }
+          
+            
+            .dropdown {
+              position: relative;
+              display: inline-block;
+              margin-right: 20px;
+            }
+            
+            .dropdown-content {
+              display: none;
+              position: absolute;
+              background-color: #1a1a1a;
+              min-width: 150px;
+              z-index: 1;
+              top: 0;
+              left: 100%;
+            }
+            
+            .dropdown:hover .dropdown-content {
+              display: block;
+            }
+            
+            .dropdown-link {
+              color: #ffffff;
+              font-weight: bold;
+              font-family:Arial,sans-serif;
+              padding: 10px;
+              text-decoration: none;
+              display: block;
+              transition: background-color 0.2s;
+              font-size: 18px;
+              white-space: normal;
+              
+            }
+            
+            .dropdown-link:hover {
+              background-color: #0080ff;
+            }
+          
+            .disclaimer {
+              position: fixed;
+              bottom: 20px;
+              left: 8%;
+              transform: translateX(-50%);
+              color: #faf7f7;
+              font-size: 14px;
+            }
+            /*---------------MODAL--------------------*/
+            .modal {
+              display: none;
+              position: relative;
+              transform: translate(-50%, -50%);
+              width: 200%;
+              max-width: 400px;
+              background-color: transparent;
+              justify-content: center;
+              align-items: center;
+              z-index: 2;
+              margin-top: 80%;
+              
+            }
+          
+            .modal-content {
+              background-color: #fff;
+              padding: 10px;
+              border-radius: 8px;
+              box-shadow: 0px 2px 4px rgba(14, 13, 13, 0.1);
+              text-align: center;
+              max-height: 70vh; /* Set a maximum height for scrolling */
+              overflow: auto;
+              margin-top: 3vh;
+              display: none;
+              position: relative;
+              /*transform: translate(-50%, -50%);*/
+              width: 350px;
+              justify-content: center;
+              align-items: center;
+              z-index: 2;
+              border-radius: 2px;
+              border-width: 2px;
+              border-color: #1a1a1a;
+            }
+          
+            .modal-title {
+              font-size: 24px;
+              margin-bottom: 20px;
+            }
+          
+            .form-group {
+              text-align: left;
+              margin-bottom: 17px;
+            }
+            .form-group1 {
+              text-align: left;
+              display: inline-flex;
+              margin-bottom: 17px;
+            }
+            label {
+              display: block;
+              font-weight: bold;
+              margin-bottom: 5px;
+            }
+          
+            input[type="text"],
+            input[type="number"] {
+              width: 100%;
+              padding: 10px;
+              border: 1px solid #ccc;
+              border-radius: 4px;
+            }
+          
+            input[type="submit"] {
+              background-color: #007bff;
+              border: none;
+              color: #ffffff;
+              padding: 10px 20px;
+              border-radius: 4px;
+              cursor: pointer;
+              font-size: 16px;
+            }
+          
+            input[type="submit"]:hover {
+              background-color: #0056b3;
+            }
+            form{
+              width:fit-content;
+              background-color: white;
+              margin: auto;
+              width:320px;
+            }
+            table {
+              margin-top: 10px; /* Adjust this margin as needed */
+              width: 150%;
+              margin-left: auto;
+              overflow: auto; /* Add horizontal scroll if content exceeds viewport width */
+              border-collapse:collapse;
+              display: none;
+              justify-content: center;
+              overflow: auto;
+              height: fit-content;
+              
+            }
+            th{
+              background-color: #dbdbd7;
+              padding: 10px; /* Adjust padding as needed */
+              border: 1px solid #ccc; /* Add borders to cells */
+              text-align: center; /* Align content in cells */
+              white-space: nowrap; /* Prevent cell contents from wrapping */
+              overflow: auto; /* Hide overflow */
+              text-overflow: ellipsis;  /*Show ellipsis for overflowing content */
+              column-width: 90%;
+            }
+            table td {
+                padding: 10px; /* Adjust padding as needed */
+                border: 1px solid #ccc; /* Add borders to cells */
+                text-align: center; /* Align content in cells */
+                white-space: nowrap; /* Prevent cell contents from wrapping */
+                overflow: auto; /* Hide overflow */
+                text-overflow: ellipsis;  /*Show ellipsis for overflowing content */
+                column-width: 90%;
+                background-color: #f2f2f2;
+            }
+            #status{
+              display:none;
+              color:white;
+             
+            }
+            /* Dashboard CSS */
+            .dashboard {
+              
+              display: flex;
+              background:inherit;
+              flex-wrap: wrap;
+              justify-content: space-evenly;
+              align-content: start;
+              height:100%;
+              
+              width: fit-content;
+              margin: 0;
+              padding: 0;
+          }
+
+          .dashboard-item {
+            width: calc(45% - 20px); /* Adjusted width to account for margins */
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            position: relative;
+            overflow: hidden;
+            transition: background-color 0.2s, color 0.2s; /* Added transition */
+            flex-grow: 1; /* Allow items to distribute space evenly */
+        }
+        .dashboard-item:hover {
+          background-color: inherit;
+        }
+        .dashboard-item:hover h2, 
+        .dashboard-item:hover p {
+          text-color:black;
+          color: white;
+        }
+  
+  .dashboard-item:before {
+    content: "";
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0);
+    transform: scale(1);
+    transition: transform 0.2s, background-color 0.2s;
+  }
+
+  .dashboard-item:hover:before {
+    background: rgba(0, 0, 0, 0.2); /* Adjusted hover color */
+    transform: scale(1.1);
+  }
+
+  .dashboard-item h2 {
+    color: black;
+  }
+
+  .dashboard-item p {
+    font-size: 24px;
+    color: #555;
+  }
+
+  .dashboard-item img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+  }
+
+  .books-borrowed {
+    background-color: white;
+  }
+
+  .books-returned {
+    background-color: white;
+  }
+
+  .overdue-books {
+    background-color: white;
+  }
+
+  .addebook {
+    background-color: white;
+  }
+
+  .books-borrowed p {
+    color: black;
+  }
+
+  .books-returned p {
+    color: black;
+  }
+
+  .overdue-books p {
+    color: black;
+  }
+
+  .addebook p {
+    color: black;
+  }
+
+  #borrowerstable{
+    display: none;
+  }
+
+
+  #loglog{
+    color: #ffffff;
+              font-weight: bold;
+              font-family:Arial,sans-serif;
+              padding: 10px;
+              text-decoration: none;
+              display: block;
+              transition: background-color 0.2s;
+              font-size: 18px;
+              white-space: normal;
+    
+      }
+  
+  #loglog:hover{
+    background-color: red;
+
+
+  }
+
+
+
+
+
+</style>
+</head>
+ 
+<body>
+  <div id="main">
+    <div id="searchbar">
+      <div class="navbar-logo"><img src="{% static 'logo.png' %}" alt="logo"></div>
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search  Author / Book Name / ISBN .... ">
+        <button id="search-button">Search</button>
+      </div>
+      <div id="searchbar"></div>
+      <div class="user-icons">
+        <div class="user-icon" style="color:white; font-size:18px;"><p><b>ID: {{adminid}}</b></p></div>
+      </div><div id="searchbar">
+        <div class="user-icon"><a id="loglog" href="admin_logout";>LOGOUT</a></div>
+      </div>
+    </div>
+    <!-- -------------------------------- -->
+    <div id="content">
+          <!-- ------------------- -->
+          <div id="dropdown">
+              <div class="sidebar">
+                <a href="#" class="dropdown-link" data-action="show-dashboard">Home Page</a>
+                <a href="#" class="dropdown-link" data-action="add-book">Add Book</a>
+                <a href="#" class="dropdown-link" data-action="clone-book">Clone Book</a>
+                <a href="#" class="dropdown-link" data-action="delete-book">Delete Book</a>
+                <a href="#" class="dropdown-link" data-action="assign-book">Assign Book</a>
+                <a href="#" class="dropdown-link" data-action="show-borrowers">Library Patrons</a>
+                <a href="#" class="dropdown-link" data-action="return-book">Book Return</a>
+                <a href="#" class="dropdown-link" data-action="history-table">Transaction History</a>
+                <a href="#" class="dropdown-link" data-action="register-student">+Add Student</a>
+                <a href="settings" class="dropdown-link" data-action="settings">Configuration Options</a>
+                
+            </div>
+            <div class="disclaimer">
+              &copy; BKB-LIBRARY 2023
+            </div>
+          </div>
+          <!-- -------------------- -->
+          <div id="forms">
+            <h2 id="status">
+              {{status}}
+            </h2>
+                <!-- <div class='modal' id='addBookModal'> -->
+                <div class='modal-content' id='addBookModal'>
+                  <h2>Add a Book</h2>
+                  <form method='POST' action='add_book' enctype="multipart/form-data"> 
+                    {% csrf_token %}
+                    <div class='form-group'>
+                      <label for='bookId'>Book ID:</label>
+                      <input type='text' id='bookId' name='bookId' required>
+                    </div>
+                    <div class='form-group'>
+                      <label for='bookName'>Book Name:</label>
+                      <input type='text' id='bookName' name='bookName' required>
+                    </div>
+                    <div class='form-group'>
+                      <label for='bookAuthor'>Book Author:</label>
+                      <input type='text' id='bookAuthor' name='bookAuthor' required>
+                    </div>
+                    <div class='form-group'>
+                      <label for='isbn'>ISBN Number:</label>
+                      <input type='text' id='isbn' name='isbn' required>
+                    </div>
+                    <div class='form-group'>
+                      <label for='cost'>Cost:</label>
+                      <input type='number' id='cost' name='cost' required>
+                    </div>
+                    <!-- <div class='form-group'>
+                      <input type='file'>
+                    </div> -->
+                    <div class='form-group'>
+                      <input type='submit' value='Add Book' >
+                    </div>
+                  </form>
+                </div>
+              <!-- </div> -->
+
+              <!-- <div class='modal' id='cloneBookModal'> -->
+              <div class='modal-content' id='cloneBookModal'>
+                                <h2>Clone a Book</h2>
+                                <form method='POST' action='clone_book' >
+                                  {% csrf_token %}
+                                  <div class='form-group'>
+                                    <label for='bookId'>Book ID:</label>
+                                    <input type='text' id='bookId' name='bookID' value="" required>
+                                  </div>
+                
+                                  <div class='form-group'>
+                                    <label for='isbn_clone'>ISBN:</label>
+                                    <input type='text' id='isbn_clone' name='isbn_clone' value="" required>
+                                  </div>
+                          
+                                  <div class='form-group'>
+                                    <input type='submit' value='Clone Book' onclick="return confirm('Are you sure you want to clone?')">
+                                  </div>
+                                </form>
+              </div>
+
+              <!-- <div class='modal' id='deleteBookModal'> -->
+                <div class='modal-content' id='deleteBookModal'>
+                  <h2>Delete a Book</h2>
+                  <form method='POST' action='delete_book' >
+                    {% csrf_token %}
+                    <div class='form-group'>
+                      <label for='bookId'>Book ID:</label>
+                      <input type='text' id='bookId' name='bookId' value="">
+                    </div>
+                    <div class='form-group'>
+                      <center>
+                      <label>-----------OR-----------</label>
+                      </center>
+                    </div>
+                    <div class='form-group'>
+                      <label for='isbn_del'>ISBN:</label>
+                      <input type='text' id='isbn_del' name='isbn_del' value="" >
+                    </div>
+            
+                    <div class='form-group'>
+                      <input type='submit' value='Delete Book' onclick="return confirm('Are you sure you want to delete?')">
+                    </div>
+                  </form>
+                </div>
+              <!-- </div> -->
+            
+              <!-- <div class='modal' id='assignBookModal'> -->
+                <div class='modal-content' id='assignBookModal'>
+                  <h2>Assign a Book</h2>
+                  <form method='POST' action='assign_book'>
+                    {% csrf_token %}
+                    <div class='form-group'>
+                      <label for='bookId'>Book ID:</label>
+                      <input type='text' id='bookId' name='bookId' >
+                    </div>
+                    <div class='form-group'>
+                      <label for='studentId'>Student ID:</label>
+                      <input type='text' id='studentId' name='studentId' >
+                    </div>
+                    <div class='form-group'>
+                      <input type='submit' value='Assign Book'>
+                      
+                    </div>
+                  </form>
+                </div>
+              <!-- Return and Pay start -->
+              <div class='modal-content' id='returnBookModal'>
+                <h2>Return a Book</h2>
+                <form method='POST' action='return_book' id="fineform">
+                  {% csrf_token %}
+                  <div class='form-group'>
+                    <label for='bookId'>Book ID:</label>
+                    <input type='text' id='fine_bookid_input' name='bookId'  required>
+                  </div>
+                  <div class='form-group1'>
+                    <input type="checkbox" id="booklost_checkbox"><label for="booklost_checkbox">Lost book</label>
+                  </div>
+                  <div class='form-group'>
+                    <input type='submit' value='Return Book'>
+                  </div>
+                </form>
+                <b><p id="return_due_date"></p></b>
+                <b><p id ="fine_to_pay"></p></b>
+                <b><p id ="fine_book_cost"></p></b>
+                <b><p id ="total_fine"></p></b>
+                <img src="{% static 'qrcode.png' %}" alt="QR Image" id="qr">
+              </div>
+              <!-- Register a student -->
+              <div class='modal-content' id='addstudent'>
+                <h2>Add a student</h2>
+                <form method='POST' action='add_student' id="addstudentform">
+                  {% csrf_token %}
+                  <div class='form-group'>
+                    <label for='studentname'>Name:</label>
+                    <input type='text' id="studentname" name='studentname'  required>
+                  </div>
+                  <div class='form-group'>
+                    <label for='studentid'>ID:</label>
+                    <input type='text' name='studentid'  id="studentid" required>
+                  </div>
+                  <div class='form-group'>
+                    <label for='password1'>Password:</label>
+                    <input type='text' name='password1' id="pwd1" required>
+                  </div>
+                  <div class='form-group'>
+                    <label for='password2'>Retype Password:</label>
+                    <input type='text' name='password2'  id='pwd2' required>
+                  </div>
+                  <div class='form-group'>
+                    <input type='submit' id="register" value="Register" onclick="return confirm('Are you sure you want to register?')">
+                  </div>
+                </form>
+              </div>
+              <!--  ------------------------------------------------------------------ -->
+              <!-- Add e-Book -->
+              <div class='modal-content' id='add_e_book_div'>
+                <h2>Add e-Book</h2>
+                <form method='POST' action='add_ebook' id="add_e_book_form" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class='form-group'>
+                    <label for='ebookname'>Book Name:</label>
+                    <input type='text' id="studentname" name='ebookname'  required>
+                  </div>
+                  <div class='form-group'>
+                    <label for='ebookisbn'>ISBN</label>
+                    <input type='text' name='ebookisbn'  id="ebookisbn" required>
+                  </div>
+                  <div class='form-group'>
+                    <label for='fileupload'>Upload Image:</label>
+                    <input type='file' name='imagefileupload' id="imagefileupload" accept=" .jpg, .png, .jpeg, .wepg">
+                  </div>
+                  <div class='form-group'>
+                    <label for='fileupload'>Upload File:</label>
+                    <input type='file' name='fileupload' id="fileupload" accept=".pdf, .doc" required>
+                  </div>
+                  <div class='form-group'>
+                    <input type='submit' id="addebookbutton" value="Add" onclick="return confirm('Are you sure you want to add?')">
+                  </div>
+                </form>
+              </div>
+              
+              <!-- End of add e-book -->
+              <!-- Return and Pay end -->
+              <table id="booksTable">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th>Total Count</th>
+                    <th>Available</th>
+                    <th>Assigned</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for record in books_data %}
+                  <tr>
+                    <td>{{ record.book_name }}</td>
+                    <td>{{ record.book_author }}</td>
+                    <td>{{ record.book_isbn }}</td>
+                    <td>{{ record.book_total_count }}</td>
+                    <td>{{ record.book_available }}</td>
+                    <td>{{ record.book_lended }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+
+              <!-- Borrowers Table -->
+              <table id="borrowerstable">
+                <tr>
+                  <th>Student ID</th>
+                  <th>Student Name</th>
+                  <th>Book ID</th>
+                  <th>Book Name</th>
+                  <th>Assigned Date</th>
+                  <th>Due Date</th>
+                  <th>Fine Amount</th>
+                </tr>
+                {% for record in borrowestable %}
+                  <tr>
+                    <td>{{ record.student_id }}</td>
+                    <td>{{ record.student_name }}</td>
+                    <td>{{ record.book_id }}</td>
+                    <td>{{ record.book_name }}</td>
+                    <td>{{ record.issued_date }}</td>
+                    <td>{{ record.due_date }}</td>
+                    <td>{{ record.fine_cost }}</td>
+                  </tr>
+                {% endfor %}
+              </table>
+
+              <!-- All Books TAble -->
+              <table id="allbookstable">
+                <tr>
+                  <th>Book ID</th>
+                  <th>Book Name</th>
+                  <th>Book Author</th>
+                  <th>ISBN</th>
+                  <th>Book Cost</th>
+                </tr>
+                {% for record in totalbooks %}
+                  <tr>
+                    <td>{{ record.book_id }}</td>
+                    <td>{{ record.book_name }}</td>
+                    <td>{{ record.book_author }}</td>
+                    <td>{{ record.book_isbn }}</td>
+                    <td>{{ record.book_cost }}</td>
+                  </tr>
+                {% endfor %}
+              </table>
+              <!-- Overdue Books Table -->
+              <table id="overduebookstable">
+	
+                <tr>
+                  <th>Student ID</th>
+                  <th>Student Name</th>
+                  <th>Book ID</th>
+                  <th>Book Name</th>
+                  <th>Issued Date</th>
+                  <th>Due Date</th>
+                  <th>Fine Amount</th>
+                  
+                </tr>
+                {% for record in overduebookstable %}
+                  <tr>
+                    <td>{{ record.student_id }}</td>
+                    <td>{{ record.student_name }}</td>
+                    <td>{{ record.book_id }}</td>
+                    <td>{{ record.book_name }}</td>
+                    <td>{{ record.issued_date }}</td>
+                    <td>{{ record.due_date }}</td>
+                    <td>{{ record.fine_cost }}</td>
+                  </tr>
+                {% endfor %}
+              </table>
+          
+              <!-- History Table-->
+              <table id="historytable">
+	
+                <tr>
+                  <th>Student ID</th>
+                  <th>Student Name</th>
+                  <th>Book ID</th>
+                  <th>Book Name</th>
+                  <th>Book ISBN</th>
+                  <th>Issued Date</th>
+                  <th>Returned Date</th>
+                  <th>Book Status</th>
+                  <th>Fine Paid</th>
+                </tr>
+                {% for record in historytable %}
+                  <tr>
+                    <td>{{ record.student_id }}</td>
+                    <td>{{ record.student_name }}</td>
+                    <td>{{ record.book_id }}</td>
+                    <td>{{ record.book_name }}</td>
+                    <td>{{ record.book_isbn }}</td>
+                    <td>{{ record.issued_date }}</td>
+                    <td>{{ record.returned_date }}</td>
+                    <td>{{ record.book_status }}</td>
+                    <td>{{ record.fine_paid }}</td>
+                  </tr>
+                {% endfor %}
+              </table>
+              
+              <!--  Admin dashboard-->
+
+              <div class="dashboard" id="admindashboard">
+                
+                <div class="dashboard-item books-borrowed" id="dashboard_books_total">
+                  
+                  {% comment %} <img src="{% static 'return.png' %}" alt="Total books"> {% endcomment %}
+                  <h2>Total Books</h2>
+                  <p>{{totalbooksondashboard}}</p>
+        
+                </div>
+                <div class="dashboard-item books-borrowed" id="dashboard_books_borrowed">
+                  
+                  {% comment %} <img src="{% static 'borrowed.png' %}" alt="Borrowers"> {% endcomment %}
+                    <h2>Borrowers</h2>
+                    <p>{{borrowerscount}}</p>
+                </div>
+                
+              
+                
+                <div class="dashboard-item overdue-books" id="dashboard_books_overdue">
+                  {% comment %} <img src="{% static 'over_dues.jpg' %}" alt="Overdue Books"> {% endcomment %}
+                  <h2>Overdue Books</h2>
+                  <p>{{overduebookscount}}</p>
+                </div>
+                
+                <div class="dashboard-item addebook" id="addebook">
+                  {% comment %} <img src="{% static 'fine.jpg' %}" alt="Add e-Book"> {% endcomment %}
+                  <h2>Add e-Book</h2>
+                  <p>{{ebookscount}}</p>
+                </div>
+              </div>
+              <!--  End of admin dashboard-->
+          </div>
+    </div>  
+  </div>
+  </body>
+
+  <script>
+    document.addEventListener("DOMContentLoaded",function(){
+      //var adpnl = document.getElementById("adminpanel");
+      var modalAddBook = document.getElementById("addBookModal");
+      var modalDeleteBook = document.getElementById("deleteBookModal");
+      var modalAssignBook = document.getElementById("assignBookModal");
+      var modalCloneBook = document.getElementById("cloneBookModal");
+      var modalReturnBook = document.getElementById("returnBookModal");
+      var fine_form = document.getElementById("fineform")
+      var fine_to_pay = document.getElementById("fine_to_pay")
+      var return_due_date = document.getElementById("return_due_date")
+      var searchBar = document.getElementById("searchInput")
+      var fine_bookid_input = document.getElementById("fine_bookid_input")
+      var qr = document.getElementById("qr")
+      var booklost_checkbox = document.getElementById("booklost_checkbox")
+      var fine_book_cost = document.getElementById("fine_book_cost")
+      var total_fine = document.getElementById("total_fine")
+      var availability_search = document.getElementById("search-button")
+      var add_student = document.getElementById("addstudent")
+      var password1 = document.getElementById("pwd1")
+      var password2 = document.getElementById("pwd2")
+      var add_student_form = document.getElementById("addstudentform")
+      var register_button = document.getElementById("register")
+      var studentname = document.getElementById("studentname")
+      var register_student_id = document.getElementById("studentid")
+      var add_e_book_div = document.getElementById("add_e_book_div")
+      //var add_e_book_form = document.getElementById("add_e_book_form")
+      //const search_table_div = document.getElementById("booksTable")
+
+      //Dashboard
+      var admindashboard = document.getElementById("admindashboard")
+      var dashboard_books_total= document.getElementById("dashboard_books_total")
+      var dashboard_books_borrowed = document.getElementById("dashboard_books_borrowed")
+      var dashboard_books_overdue = document.getElementById("dashboard_books_overdue")
+      var add_e_book = document.getElementById("addebook")
+      
+      //Tables
+      var borrowerstable = document.getElementById("borrowerstable")
+      const search_table_div = document.getElementById("booksTable")
+      var allbookstable =  document.getElementById("allbookstable")
+      var overduebookstable = document.getElementById("overduebookstable")
+      var historytable = document.getElementById("historytable")
+      
+      //status
+      var status = document.getElementById("status")
+      if(status.innerText){
+        
+        status.style.display='block'
+        //console.log(status.value)
+      }
+
+      //render add book form
+      var addBookButton = document.querySelector(".dropdown-link[data-action='add-book']");
+      
+      addBookButton.addEventListener("click", function() {
+          status.style.display='none'
+          searchBar.value=''
+          search_table_div.style.display="none"
+          modalDeleteBook.style.display="none";
+          modalAssignBook.style.display="none";
+          modalAddBook.style.display = "block";
+          admindashboard.style.display="none";
+          borrowerstable.style.display="none"; //
+          allbookstable.style.display="none";  //
+          overduebookstable.style.display="none"; //
+          historytable.style.display="none"; //
+          modalCloneBook.style.display="none";
+          modalReturnBook.style.display="none";
+          fine_to_pay.style.display="none";
+          fine_to_pay.value=undefined;
+          return_due_date.style.display='none';
+          add_student.style.display = 'none';
+          fine_form.action = "return_book";
+          fine_bookid_input.value='';
+          add_e_book_div.style.display = 'none'
+          
+      });
+
+       //Render Clone Book
+       var cloneBookButton = document.querySelector(".dropdown-link[data-action='clone-book']");
+       cloneBookButton.addEventListener("click", function() {
+        status.style.display='none'
+        searchBar.value=''
+        search_table_div.style.display="none"
+        modalDeleteBook.style.display="none";
+        modalAssignBook.style.display="none";
+        modalAddBook.style.display = "none";
+        admindashboard.style.display="none";
+        borrowerstable.style.display="none"; //
+        historytable.style.display="none"; //
+        allbookstable.style.display="none"; //
+        overduebookstable.style.display="none"; //
+        modalCloneBook.style.display="block";
+        modalReturnBook.style.display="none";
+        fine_to_pay.style.display="none";
+        fine_to_pay.value=undefined;
+        return_due_date.style.display='none';
+        add_student.style.display = 'none';
+        fine_form.action = "return_book";
+        fine_bookid_input.value='';
+        add_e_book_div.style.display = 'none'
+    });
+    
+
+      //render delete book form
+      var deleteBookButton = document.querySelector(".dropdown-link[data-action='delete-book']");
+      deleteBookButton.addEventListener("click", function() {
+        status.style.display='none'
+        searchBar.value=''
+        search_table_div.style.display="none"
+        modalAssignBook.style.display="none";
+        modalAddBook.style.display = "none";
+        modalDeleteBook.style.display = "block";
+        admindashboard.style.display="none"
+        borrowerstable.style.display="none";
+        historytable.style.display="none";
+        allbookstable.style.display="none";
+        overduebookstable.style.display="none";
+        modalCloneBook.style.display="none";
+        modalReturnBook.style.display="none";
+        fine_to_pay.style.display="none";
+        fine_to_pay.value=undefined;
+        return_due_date.style.display='none';
+        add_student.style.display = 'none';
+        fine_form.action = "return_book";
+        fine_bookid_input.value='';
+        add_e_book_div.style.display = 'none'
+      });
+    
+      //Assign a book
+      var assignBookButton = document.querySelector(".dropdown-link[data-action='assign-book']");
+      assignBookButton.addEventListener("click", function() {
+        status.style.display='none'
+        searchBar.value=''
+        search_table_div.style.display="none"
+        modalAddBook.style.display = "none";
+        modalDeleteBook.style.display = "none";
+        modalAssignBook.style.display = "block";
+        admindashboard.style.display="none"
+        borrowerstable.style.display="none"
+        allbookstable.style.display="none";
+        overduebookstable.style.display="none";
+        historytable.style.display="none";
+        modalCloneBook.style.display="none";
+        modalReturnBook.style.display="none";
+        fine_to_pay.style.display="none";
+        fine_to_pay.value=undefined;
+        return_due_date.style.display='none';
+        add_student.style.display = 'none';
+        fine_form.action = "return_book"
+        fine_bookid_input.value='';
+        add_e_book_div.style.display = 'none'
+      });
+    
+      //Add Student
+      var addstudentbutton = document.querySelector(".dropdown-link[data-action='register-student']");
+      addstudentbutton.addEventListener("click", function() {
+        status.style.display='none'
+        searchBar.value=''
+        search_table_div.style.display="none"
+        modalAddBook.style.display = "none";
+        modalDeleteBook.style.display = "none";
+        modalAssignBook.style.display = "none";
+        admindashboard.style.display="none"
+        borrowerstable.style.display="none"
+        allbookstable.style.display="none";
+        overduebookstable.style.display="none";
+        historytable.style.display="none";
+        modalCloneBook.style.display="none";
+        modalReturnBook.style.display="none";
+        fine_to_pay.style.display="none";
+        fine_to_pay.value=undefined;
+        return_due_date.style.display='none';
+        add_student.style.display = 'block';
+        fine_form.action="return_book";
+        fine_bookid_input.value='';
+        add_e_book_div.style.display = 'none';
+        add_e_book_div.style.display = 'none'
+      });
+      //Return book
+      var returnBookButton = document.querySelector(".dropdown-link[data-action='return-book']");
+      returnBookButton.addEventListener("click", function() {
+        status.style.display='none'
+        searchBar.value=''
+        search_table_div.style.display="none"
+        modalAddBook.style.display = "none";
+        modalDeleteBook.style.display = "none";
+        modalAssignBook.style.display = "none";
+        admindashboard.style.display="none"
+        borrowerstable.style.display="none"
+        allbookstable.style.display="none";
+        overduebookstable.style.display="none";
+        historytable.style.display="none";
+        modalCloneBook.style.display="none";
+        modalReturnBook.style.display="block";
+        fine_to_pay.style.display="none";
+        fine_to_pay.value=undefined;
+        return_due_date.style.display='none';
+        add_student.style.display = 'none';
+        fine_form.action="return_book";
+        fine_bookid_input.value='';
+        add_e_book_div.style.display = 'none'
+      });
+      
+
+      //Render ADD e-Book form
+      add_e_book.addEventListener("click",function(){
+        status.style.display='none'
+        searchBar.value=''
+        search_table_div.style.display="none"
+        modalAddBook.style.display = "none";
+        modalDeleteBook.style.display = "none";
+        modalAssignBook.style.display = "none";
+        admindashboard.style.display="none"
+        borrowerstable.style.display="none"
+        allbookstable.style.display="none";
+        overduebookstable.style.display="none";
+        historytable.style.display="none";
+        modalCloneBook.style.display="none";
+        modalReturnBook.style.display="none";
+        fine_to_pay.style.display="none";
+        fine_to_pay.value=undefined;
+        return_due_date.style.display='none';
+        add_student.style.display = 'none';
+        fine_form.action="return_book";
+        fine_bookid_input.value='';
+        add_e_book_div.style.display = 'block'
+      })
+      add_e_book_div
+
+      //var fine_form = document.getElementById("fineform") ---> typed at the start of the script
+
+      searchBar.addEventListener("keyup",function(){
+        status.style.display='none'
+        //search_table_div.style.display="block"
+        modalDeleteBook.style.display="none";
+        modalAssignBook.style.display="none";
+        modalAddBook.style.display = "none";
+        admindashboard.style.display="none"
+        //borrowerstable.style.display="none"
+        //allbookstable.style.display="none";
+        //overduebookstable.style.display="none";
+        //historytable.style.display="none";
+        modalCloneBook.style.display="none";
+        modalReturnBook.style.display="none";
+        fine_to_pay.style.display="none";
+        fine_to_pay.value=undefined;
+        return_due_date.style.display='none';
+        add_student.style.display = 'none';
+        fine_form.action="return_book";
+        fine_bookid_input.value='';
+        add_e_book_div.style.display = 'none'
+      })
+    
+
+      //show DASHBOARD
+      var showDashboard = document.querySelector(".dropdown-link[data-action='show-dashboard']")
+      showDashboard.addEventListener("click", function() {
+        status.style.display='none'
+        searchBar.value=''
+        search_table_div.style.display="none"
+        modalDeleteBook.style.display="none";
+        modalAssignBook.style.display="none";
+        modalAddBook.style.display = "none";
+        admindashboard.style.display="flex";
+        borrowerstable.style.display="none"
+        allbookstable.style.display="none";
+        overduebookstable.style.display="none";
+        historytable.style.display="none";
+        modalCloneBook.style.display="none";
+        modalReturnBook.style.display="none";
+        fine_to_pay.style.display="none";
+        fine_to_pay.value=undefined;
+        return_due_date.style.display='none';
+        add_student.style.display = 'none';
+        fine_form.action="return_book";
+        fine_bookid_input.value='';
+        add_e_book_div.style.display = 'none'
+        //console.log("dashboard")
+        
+    });
+    //DROPDOWN BORROWERS
+    var showborrowers = document.querySelector(".dropdown-link[data-action='show-borrowers']")
+    showborrowers.addEventListener("click",function(){
+      searchBar.value=''
+      status.style.display='none'
+      search_table_div.style.display="none"
+      modalDeleteBook.style.display="none";
+      modalAssignBook.style.display="none";
+      modalAddBook.style.display = "none";
+      admindashboard.style.display="none"
+      borrowerstable.style.display="block"
+      allbookstable.style.display="none";
+      overduebookstable.style.display="none";
+      historytable.style.display="none";
+      modalCloneBook.style.display="none";
+      modalReturnBook.style.display="none";
+      fine_to_pay.style.display="none";
+      fine_to_pay.value=undefined;
+      return_due_date.style.display='none';
+      add_student.style.display = 'none';
+      fine_form.action="return_book";
+      fine_bookid_input.value='';
+      add_e_book_div.style.display = 'none'
+      
+    })
+    //DROPDOWN HISTORY
+    var show_history_table = document.querySelector(".dropdown-link[data-action='history-table']")
+    show_history_table.addEventListener("click",function(){
+      searchBar.value=''
+      status.style.display='none'
+      search_table_div.style.display="none"
+      modalDeleteBook.style.display="none";
+      modalAssignBook.style.display="none";
+      modalAddBook.style.display = "none";
+      admindashboard.style.display="none"
+      borrowerstable.style.display="none"
+      allbookstable.style.display="none";
+      overduebookstable.style.display="none";
+      historytable.style.display="block";
+      modalCloneBook.style.display="none";
+      modalReturnBook.style.display="none";
+      fine_to_pay.style.display="none";
+      fine_to_pay.value=undefined;
+      return_due_date.style.display='none';
+      add_student.style.display = 'none';
+      fine_form.action="return_book";
+      fine_bookid_input.value='';
+      add_e_book_div.style.display = 'none'
+    })
+
+    //TABLES------------------
+    dashboard_books_borrowed.addEventListener("click",function(){
+      searchBar.value=''
+      status.style.display='none'
+      search_table_div.style.display="none"
+      modalDeleteBook.style.display="none";
+      modalAssignBook.style.display="none";
+      modalAddBook.style.display = "none";
+      admindashboard.style.display="none"
+      borrowerstable.style.display="block"
+      allbookstable.style.display="none";
+      overduebookstable.style.display="none";
+      historytable.style.display="none";
+      modalCloneBook.style.display="none";
+      modalReturnBook.style.display="none";
+      fine_to_pay.style.display="none";
+      fine_to_pay.value=undefined;
+      return_due_date.style.display='none';
+      add_student.style.display = 'none';
+      fine_form.action="return_book";
+      fine_bookid_input.value='';
+      add_e_book_div.style.display = 'none'
+    })
+    dashboard_books_total.addEventListener("click",function(){
+      searchBar.value=''
+      status.style.display='none'
+      search_table_div.style.display="none"
+      modalDeleteBook.style.display="none";
+      modalAssignBook.style.display="none";
+      modalAddBook.style.display = "none";
+      admindashboard.style.display="none"
+      borrowerstable.style.display="none"
+      allbookstable.style.display="block";
+      overduebookstable.style.display="none";
+      historytable.style.display="none";
+      modalCloneBook.style.display="none";
+      modalReturnBook.style.display="none";
+      fine_to_pay.style.display="none";
+      fine_to_pay.value=undefined;
+      return_due_date.style.display='none';
+      add_student.style.display = 'none';
+      fine_form.action="return_book";
+      fine_bookid_input.value='';
+      add_e_book_div.style.display = 'none'
+      
+    })
+
+    dashboard_books_overdue.addEventListener("click",function(){
+      searchBar.value=''
+      status.style.display='none'
+      search_table_div.style.display="none"
+      modalDeleteBook.style.display="none";
+      modalAssignBook.style.display="none";
+      modalAddBook.style.display = "none";
+      admindashboard.style.display="none"
+      borrowerstable.style.display="none"
+      allbookstable.style.display="none";
+      overduebookstable.style.display="block";
+      historytable.style.display="none";
+      modalCloneBook.style.display="none";
+      modalReturnBook.style.display="none";
+      fine_to_pay.style.display="none";
+      fine_to_pay.value=undefined;
+      return_due_date.style.display='none';
+      add_student.style.display = 'none';
+      fine_form.action="return_book";
+      fine_bookid_input.value='';
+      add_e_book_div.style.display = 'none'
+      
+    })
+
+    //Matching Password
+    password1.addEventListener("input",function(){
+      if(password1.value==password2.value && !password1.value.includes(" ") && !register_student_id.value.includes(" ")){
+            //add_student_form.action="add_student";
+            register_button.disabled=false;
+            console.log("p1",!register_button.disabled)
+
+      }
+      else{
+        register_button.disabled=true;
+        console.log("p1",!register_button.disabled)
+      }
+    })
+    password2.addEventListener("input",function(){
+      //console.log("p2")
+      if(password1.value==password2.value && !password1.value.includes(" ") && !register_student_id.value.includes(" ")){
+        //add_student_form.action="add_student";
+        register_button.disabled=false;
+        console.log("p2",!register_button.disabled)
+
+      }
+      else{
+        register_button.disabled=true;
+        console.log("p2",!register_button.disabled)
+      }
+    })
+    register_student_id.addEventListener("input",function(){
+      //console.log("sid")
+      if(password1.value==password2.value && !password1.value.includes(" ") && !register_student_id.value.includes(" ")){
+        //add_student_form.action="add_student";
+        register_button.disabled=false;
+        console.log("id",!register_button.disabled)
+      }
+      else{
+          register_button.disabled=true;
+          console.log("id",!register_button.disabled)
+      }
+    })
+    
+
+    //fine cost check box
+    allbookstablerows = allbookstable.getElementsByTagName("tr");
+    booklost_checkbox.addEventListener('change', function() {
+      //console.log(fine_bookid_input.value)
+      // Check if the checkbox is checked or not
+      if (booklost_checkbox.checked) {
+          //console.log('Checkbox is checked');
+          for (let i = 1; i < allbookstablerows.length; i++) { // Start from 1 to skip header row
+            const allbookstablerowscells = allbookstablerows[i].getElementsByTagName("td"); // Get the cells in the current row
+            //let rowMatchesSearch = false;
+      
+              if(allbookstablerowscells[0].textContent.toLowerCase()==fine_bookid_input.value){
+                var fineamount = fine_to_pay.innerText
+                var numbersArray = fineamount.match(/\d+/g); // This regular expression matches sequences of digits
+                var fineamount = numbersArray.map(Number)[0]; // Convert the matched strings to actual numbers
+
+                var bookcost = allbookstablerowscells[4].textContent;
+                var numbersArray = bookcost.match(/\d+/g); // This regular expression matches sequences of digits
+                var bookcost = numbersArray.map(Number)[0];
+                var totalfine = (bookcost+fineamount).toString()
+
+                ///
+                total_fine.innerText = ("Total fine:").concat(" ₹",totalfine)
+                total_fine.style.display="block"
+        
+                fine_book_cost.innerText = ("Book cost:").concat(" ₹",allbookstablerowscells[4].textContent.toLowerCase())
+                fine_book_cost.style.display="block";
+                qr.style.display='block';
+               //const finebookcost = allbookstablerowscells[4].textContent.toLowerCase();
+               //console.log(allbookstablerowscells[4].textContent.toLowerCase())
+              //console.
+              }
+          
+          // Do something when the checkbox is checked
+          
+         } 
+      }
+      else
+      {
+          fine_book_cost.style.display="none";
+          total_fine.style.display="none";
+          //console.log(fine_to_pay.)
+          //console.log(fine_to_pay.includes("₹0"))
+          if(fine_to_pay.innerText.includes("₹0"))
+          {
+            qr.style.display='none';
+            //console.log(h)
+          }
+          else
+          {
+            qr.style.display="block";
+          }
+          
+      } 
+          //console.log('Checkbox is unchecked');
+          // Do something when the checkbox is unchecked
+      if(total_fine.style.display=='none'){
+        fine_form.action = 'return_book';
+        //console.log(fine_form.action)
+      }
+      else if(total_fine.style.display=='block'){
+        fine_form.action = 'lost_book_delete';
+        //console.log(fine_form.action)
+      }
+
+    });
+
+    //DASHBOARD TABLE EVENTS
+      const table = document.getElementById("booksTable");
+      const rows = table.getElementsByTagName("tr");
+      const rows1 = borrowerstable.getElementsByTagName("tr");
+      const rows2 = allbookstable.getElementsByTagName("tr");
+      const rows3 = overduebookstable.getElementsByTagName("tr");
+      const rows4 = historytable.getElementsByTagName("tr");
+    
+      availability_search.addEventListener("click",function(){
+        table.style.display = 'block';
+        searchBar.value=''
+        status.style.display='none'
+        modalDeleteBook.style.display="none";
+        modalAssignBook.style.display="none";
+        modalAddBook.style.display = "none";
+        admindashboard.style.display="none"
+        borrowerstable.style.display="none"
+        allbookstable.style.display="none";
+        overduebookstable.style.display="none";
+        historytable.style.display="none";
+        modalCloneBook.style.display="none";
+        modalReturnBook.style.display="none";
+        fine_to_pay.style.display="none";
+        fine_to_pay.value=undefined;
+        return_due_date.style.display='none';
+        add_student.style.display = 'none';
+        fine_form.action="return_book";
+        fine_bookid_input.value='';
+        add_e_book_div.style.display = 'none'
+
+      })
+
+      searchBar.addEventListener("input", function() {
+        
+        //console.log("main ===",search_table_div.style.display === 'block')
+        //console.log("main ==",search_table_div.style.display == 'block')
+        
+        if(table.style.display == 'block'){
+          console.log("main table")
+          const searchTerm = searchBar.value.toLowerCase();
+          for (let i = 1; i < rows.length; i++) { // Start from 1 to skip header row
+            const cells = rows[i].getElementsByTagName("td"); // Get the cells in the current row
+            let rowMatchesSearch = false;
+    
+            for (let j = 0; j < cells.length; j++) {
+              const cellText = cells[j].textContent.toLowerCase();
+              if (cellText.includes(searchTerm)) {
+                rowMatchesSearch = true;
+                break;
+              }
+            }
+    
+            if (rowMatchesSearch) {
+              rows[i].style.display = "";
+            } 
+            else
+            {
+              rows[i].style.display = "none";
+            }
+          }
+          table.style.display ='block'
+          borrowerstable.style.display='none'
+          allbookstable.style.display="none"
+          overduebookstable.style.display='none'
+          historytable.style.display="none"
+        }
+        else if(borrowerstable.style.display=='block'){
+          console.log("borrowers table")
+          const searchTerm1 = searchBar.value.toLowerCase();
+          for (let i = 1; i < rows1.length; i++) { // Start from 1 to skip header row
+            const cells1 = rows1[i].getElementsByTagName("td"); // Get the cells in the current row
+            let rowMatchesSearch1 = false;
+    
+            for (let j = 0; j < cells1.length; j++) {
+              const cellText1 = cells1[j].textContent.toLowerCase();
+              if (cellText1.includes(searchTerm1)) {
+                rowMatchesSearch1 = true;
+                break;
+              }
+            }
+    
+            if (rowMatchesSearch1) {
+              rows1[i].style.display = "";
+            } 
+            else
+            {
+              rows1[i].style.display = "none";
+            }
+          }
+          table.style.display ='none'
+          borrowerstable.style.display='block'
+          allbookstable.style.display="none"
+          overduebookstable.style.display='none'
+          historytable.style.display="none"
+        }
+        else if(allbookstable.style.display=="block"){
+          console.log("allbooks table")
+          const searchTerm2 = searchBar.value.toLowerCase();
+          for (let i = 1; i < rows2.length; i++) { // Start from 1 to skip header row
+            const cells2 = rows2[i].getElementsByTagName("td"); // Get the cells in the current row
+            let rowMatchesSearch2 = false;
+    
+            for (let j = 0; j < cells2.length; j++) {
+              const cellText2 = cells2[j].textContent.toLowerCase();
+              if (cellText2.includes(searchTerm2)) {
+                rowMatchesSearch2 = true;
+                break;
+              }
+            }
+    
+            if (rowMatchesSearch2) {
+              rows2[i].style.display = "";
+            } 
+            else
+            {
+              rows2[i].style.display = "none";
+            }
+          }
+          table.style.display ='none'
+          borrowerstable.style.display='none'
+          allbookstable.style.display="block"
+          overduebookstable.style.display='none'
+          historytable.style.display="none"
+        }
+        else if(overduebookstable.style.display=='block'){
+          //console.log("overdue books table")
+          const searchTerm3 = searchBar.value.toLowerCase();
+          for (let i = 1; i < rows3.length; i++) { // Start from 1 to skip header row
+            const cells3 = rows3[i].getElementsByTagName("td"); // Get the cells in the current row
+            let rowMatchesSearch3 = false;
+    
+            for (let j = 0; j < cells3.length; j++) {
+              const cellText3 = cells3[j].textContent.toLowerCase();
+              if (cellText3.includes(searchTerm3)) {
+                rowMatchesSearch3 = true;
+                break;
+              }
+            }
+    
+            if (rowMatchesSearch3) {
+              rows3[i].style.display = "";
+            } 
+            else
+            {
+              rows3[i].style.display = "none";
+            }
+          }
+          table.style.display ='none'
+          borrowerstable.style.display='none'
+          allbookstable.style.display="none"
+          overduebookstable.style.display='block'
+          historytable.style.display="none"
+        }
+        else if(historytable.style.display=='block'){
+          console.log("history table")
+          const searchTerm4 = searchBar.value.toLowerCase();
+          for (let i = 1; i < rows4.length; i++) { // Start from 1 to skip header row
+            const cells4 = rows4[i].getElementsByTagName("td"); // Get the cells in the current row
+            let rowMatchesSearch4 = false;
+    
+            for (let j = 0; j < cells4.length; j++) {
+              const cellText4 = cells4[j].textContent.toLowerCase();
+              if (cellText4.includes(searchTerm4)) {
+                rowMatchesSearch4 = true;
+                break;
+              }
+            }
+    
+            if (rowMatchesSearch4) {
+              rows4[i].style.display = "";
+            } 
+            else
+            {
+              rows4[i].style.display = "none";
+            }
+          }
+          table.style.display ='none'
+          borrowerstable.style.display='none'
+          allbookstable.style.display="none"
+          overduebookstable.style.display='none'
+          historytable.style.display="block"
+        }
+        else{
+          table.style.display = 'block';
+          const searchTerm = searchBar.value.toLowerCase();
+          for (let i = 1; i < rows.length; i++) { // Start from 1 to skip header row
+            const cells = rows[i].getElementsByTagName("td"); // Get the cells in the current row
+            let rowMatchesSearch = false;
+    
+            for (let j = 0; j < cells.length; j++) {
+              const cellText = cells[j].textContent.toLowerCase();
+              if (cellText.includes(searchTerm)) {
+                rowMatchesSearch = true;
+                break;
+              }
+            }
+    
+            if (rowMatchesSearch) {
+              rows[i].style.display = "";
+            } 
+            else
+            {
+              rows[i].style.display = "none";
+            }
+          }
+          borrowerstable.style.display='none'
+          allbookstable.style.display="none"
+          overduebookstable.style.display='none'
+          historytable.style.display="none"
+        }
+      });
+     
+      //Returns and pay event table
+      var borrow_table = document.getElementById("borrowerstable");
+      var borrowers_row = borrow_table.getElementsByTagName("tr");
+      fine_bookid_input.addEventListener("input", function() {
+        var searchTermBookID = fine_bookid_input.value.toLowerCase();
+        //console.log("typed id")
+        for (let i = 1; i < borrowers_row.length; i++) { // Start from 1 to skip header row
+          var borrowers_cells = borrowers_row[i].getElementsByTagName("td"); // Get the cells in the current row
+          ///console.log("forloop")
+
+          var borrow_cellText = borrowers_cells[2].textContent.toLowerCase();
+          //console.log()
+          if(borrow_cellText==searchTermBookID){
+            console.log(borrow_cellText)
+            if(borrowers_cells[6].textContent.toLowerCase()!="0"){
+              return_due_date.innerText=("Due date:").concat(" ",borrowers_cells[5].textContent.toLowerCase());
+              return_due_date.style.display ='block';
+              fine_to_pay.style.display = 'block';
+              fine_to_pay.innerText=("Fine amount:").concat(" ₹",borrowers_cells[6].textContent.toLowerCase());
+              //qrimage.style.display='block';
+              qr.style.display='block';
+              //qe.style.width='410%';
+              //qrimage.style.width='1%';
+              console.log(b)
+              //console.log(("Due date:").concat(" ",Dueborrowers_cells[5].textContent.toLowerCase()))
+              //console.log(("Fine amount:").concat(" ",borrowers_cells[6].textContent.toLowerCase()))
+            }
+            else{
+              console.log(borrowers_cells[5].textContent.toLowerCase());
+              return_due_date.innerText=("Due date:").concat(" ",borrowers_cells[5].textContent.toLowerCase());
+              return_due_date.style.display='block';
+              fine_to_pay.innerText=("Fine amount:").concat(" ₹",'0');
+              fine_to_pay.style.display = 'block';
+              qr.style.display='none';
+              console.log(b)
+
+            }
+            //console.log(borrow_cellText)
+          }
+          else{
+            fine_to_pay.style.display = 'none';
+            return_due_date.innerText='';
+            fine_to_pay.value='';
+            qr.style.display='none';
+            fine_book_cost.style.display="none";
+            total_fine.style.display="none";
+            booklost_checkbox.checked=false;
+            fine_form.action = "return_book"
+            console.log(fine_form.action)
+            //qrimage.style.display='none';
+          }
+          
+        }
+      
+      });
+
+    })
+</script>
+
+</html>
